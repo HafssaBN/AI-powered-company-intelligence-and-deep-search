@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LangGraph Search</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Link to your existing CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" height="28" width="28" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none">
+            <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"></path>
+            <path d="M9.107 5.448c.598-1.75 3.016-1.803 3.725-.159l.06.16l.807 2.36a4 4 0 0 0 2.276 2.411l.217.081l2.36.806c1.75.598 1.803 3.016.16 3.725l-.16.06l-2.36.807a4 4 0 0 0-2.412 2.276l-.081.216l-.806 2.361c-.598 1.75-3.016 1.803-3.724.16l-.062-.16l-.806-2.36a4 4 0 0 0-2.276-2.412l-.216-.081l-2.36-.806c-1.751-.598-1.804-3.016-.16-3.724l.16-.062l2.36-.806A4 4 0 0 0 8.22 8.025l.081-.216zM11 6.094l-.806 2.36a6 6 0 0 1-3.49 3.649l-.25.091l-2.36.806l2.36.806a6 6 0 0 1 3.649 3.49l.091.25l.806 2.36l.806-2.36a6 6 0 0 1 3.49-3.649l.25-.09l2.36-.807l-2.36-.806a6 6 0 0 1-3.649-3.49l-.09-.25zM19 2a1 1 0 0 1 .898.56l.048.117l.35 1.026l1.027.35a1 1 0 0 1 .118 1.845l-.118.048l-1.026.35l-.35 1.027a1 1 0 0 1-1.845.117l-.048-.117l-.35-1.026l-1.027-.35a1 1 0 0 1-.118-1.845l.118-.048l1.026-.35l.35-1.027A1 1 0 0 1 19 2" fill="currentColor"></path>
+          </g>
+        </svg>
+        <span>LangGraph</span>
+      </div>
+      <div class="header-right">
+        <nav class="nav">
+          <button class="nav-btn active">Search</button>
+          <button class="nav-btn" onclick="window.location.href='graph-ui.html'">
+            <svg viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+            </svg>
+            Graph View
+          </button>
+        </nav>
+        <label class="switch">
+          <input class="switch__input" type="checkbox" role="switch" id="themeCheckbox">
+          <svg class="switch__icon switch__icon--light" viewBox="0 0 12 12" width="12px" height="12px" aria-hidden="true">
+            <g fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round">
+              <circle cx="6" cy="6" r="2" />
+              <g stroke-dasharray="1.5 1.5">
+                <polyline points="6 10,6 11.5" transform="rotate(0,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(45,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(90,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(135,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(180,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(225,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(270,6,6)" />
+                <polyline points="6 10,6 11.5" transform="rotate(315,6,6)" />
+              </g>
+            </g>
+          </svg>
+          <svg class="switch__icon switch__icon--dark" viewBox="0 0 12 12" width="12px" height="12px" aria-hidden="true">
+            <g fill="none" stroke="#fff" stroke-width="1" stroke-linejoin="round" transform="rotate(-45,6,6)">
+              <path d="m9,10c-2.209,0-4-1.791-4-4s1.791-4,4-4c.304,0,.598.041.883.105-.995-.992-2.367-1.605-3.883-1.605C2.962.5.5,2.962.5,6s2.462,5.5,5.5,5.5c1.516,0,2.888-.613,3.883-1.605-.285.064-.578.105-.883.105Z"/>
+            </g>	
+          </svg>
+          <span class="switch__sr">Dark Mode</span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Chat Section -->
+    <div class="chat-section">
+      <div class="chat-container">
+        <div id="messages" class="chat-messages"></div>
+        <div class="chat-input-container">
+          <div class="chat-input">
+            <input
+              type="text"
+              id="userInput"
+              placeholder="Ask anything..."
+              onkeypress="if(event.key === 'Enter') sendMessage();"
+            />
+            <button onclick="sendMessage()" class="send-btn">
+              <svg
+                viewBox="0 0 24 24"
+                height="20"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">
+          <svg
+            viewBox="0 0 24 24"
+            height="18"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              fill="currentColor"
+            />
+          </svg>
+          Sources
+        </h3>
+        <div id="searchedWebsites" class="searched-websites">
+          <ul id="websiteList"></ul>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">
+          <svg
+            viewBox="0 0 24 24"
+            height="18"
+            width="18"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18z"
+              fill="currentColor"
+            />
+          </svg>
+          Recent
+        </h3>
+        <div class="recent-searches">
+          <div class="recent-item">Machine learning basics</div>
+          <div class="recent-item">OSINT tools</div>
+          <div class="recent-item">DeepSearch</div>
+        </div>
+      </div>
+
+      <!-- Quick Graph View Button -->
+      <div class="sidebar-section">
+        <button class="graph-view-btn" onclick="window.location.href='graph-ui.html'">
+          <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 11h4l1.5-4L11 18l1.5-3H22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          View Execution Graph
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+<script src="chat.js" defer></script>
+<script src="theme.js" defer></script>
+
+
+
+</body>
+</html>

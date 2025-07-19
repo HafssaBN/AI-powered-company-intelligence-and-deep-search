@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LangGraph UI - Real-time Graph</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font (from index.html) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Link to BOTH stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="graph-ui.css" />
+</head>
+<body>
+  <!-- Header (Consistent with index.html) -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" height="28" width="28" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none">
+              <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"></path>
+              <path d="M9.107 5.448c.598-1.75 3.016-1.803 3.725-.159l.06.16l.807 2.36a4 4 0 0 0 2.276 2.411l.217.081l2.36.806c1.75.598 1.803 3.016.16 3.725l-.16.06l-2.36.807a4 4 0 0 0-2.412 2.276l-.081.216l-.806 2.361c-.598 1.75-3.016 1.803-3.724.16l-.062-.16l-.806-2.36a4 4 0 0 0-2.276-2.412l-.216-.081l-2.36-.806c-1.751-.598-1.804-3.016-.16-3.724l.16-.062l2.36-.806A4 4 0 0 0 8.22 8.025l.081-.216zM11 6.094l-.806 2.36a6 6 0 0 1-3.49 3.649l-.25.091l-2.36.806l2.36.806a6 6 0 0 1 3.649 3.49l.091.25l.806 2.36l.806-2.36a6 6 0 0 1 3.49-3.649l.25-.09l2.36-.807l-2.36-.806a6 6 0 0 1-3.649-3.49l-.09-.25zM19 2a1 1 0 0 1 .898.56l.048.117l.35 1.026l1.027.35a1 1 0 0 1 .118 1.845l-.118.048l-1.026.35l-.35 1.027a1 1 0 0 1-1.845.117l-.048-.117l-.35-1.026l-1.027-.35a1 1 0 0 1-.118-1.845l.118-.048l1.026-.35l.35-1.027A1 1 0 0 1 19 2" fill="currentColor"></path>
+            </g>
+        </svg>
+        <span>LangGraph</span>
+      </div>
+      <div class="header-right">
+        <nav class="nav">
+          <button class="nav-btn" onclick="window.location.href='index.html'">Search</button>
+          <button class="nav-btn active">Graph View</button>
+        </nav>
+        <label class="switch">
+          <input class="switch__input" type="checkbox" role="switch" id="themeCheckbox">
+          <svg class="switch__icon switch__icon--light" viewBox="0 0 12 12" width="12px" height="12px" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round"><circle cx="6" cy="6" r="2" /><g stroke-dasharray="1.5 1.5"><polyline points="6 10,6 11.5" transform="rotate(0,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(45,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(90,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(135,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(180,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(225,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(270,6,6)" /><polyline points="6 10,6 11.5" transform="rotate(315,6,6)" /></g></g></svg>
+          <svg class="switch__icon switch__icon--dark" viewBox="0 0 12 12" width="12px" height="12px" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1" stroke-linejoin="round" transform="rotate(-45,6,6)"><path d="m9,10c-2.209,0-4-1.791-4-4s1.791-4,4-4c.304,0,.598.041.883.105-.995-.992-2.367-1.605-3.883-1.605C2.962.5.5,2.962.5,6s2.462,5.5,5.5,5.5c1.516,0,2.888-.613,3.883-1.605-.285.064-.578.105-.883.105Z"/></g></svg>
+          <span class="switch__sr">Dark Mode</span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="graph-page-container">
+    <h1>LangGraph Real-Time Execution Graph</h1>
+
+    <div id="graph-container">
+      <p>Loading graph structure from server...</p>
+    </div>
+
+    <!-- Test Section -->
+    <div class="test-section">
+      <h3 class="sidebar-title">Test the Graph</h3>
+      <p>Send a query to see the graph execution in real-time:</p>
+      <div class="chat-input">
+        <input type="text" id="testInput" placeholder="Enter your query here..." />
+        <button onclick="testGraph()" class="send-btn">
+          <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
+      <div id="connectionStatus" class="status-indicator">Connecting to server...</div>
+    </div>
+  </main>
+
+  <!-- THEME SWITCHING SCRIPT (from index.html) -->
+  <script>
+    const checkbox = document.getElementById('themeCheckbox');
+    const body = document.body;
+
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light-theme');
+      checkbox.checked = true;
+    }
+
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        body.classList.add('light-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-theme');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+
+  <!-- SCRIPT HAS BEEN COMPLETELY REWRITTEN FOR DYNAMIC GRAPH -->
+  <script>
+    const container = document.getElementById('graph-container');
+    const statusDiv = document.getElementById('connectionStatus');
+
+    /**
+     * Renders the graph on the page based on data from the server.
+     * @param {object} graphData - The graph structure with nodes and edges.
+     */
+    function renderDynamicGraph(graphData) {
+        container.innerHTML = ''; // Clear loading message
+
+        // Render nodes
+        graphData.nodes.forEach(node => {
+            const nodeEl = document.createElement('div');
+            nodeEl.className = 'node';
+            // Use a clean ID, replacing special characters for CSS compatibility
+            const cleanId = node.id.replace('__', '');
+            nodeEl.id = `node-${cleanId}`;
+            nodeEl.textContent = node.id;
+            container.appendChild(nodeEl);
+        });
+
+        // Render edges
+        graphData.edges.forEach(edge => {
+            const arrow = document.createElement('div');
+            arrow.className = 'edge';
+            let label = `${edge.source} → ${edge.target}`;
+            // LangGraph marks conditional edges in the 'data' property
+            if (edge.data && edge.data.constructor.name === 'ConditionalEdge') {
+                label += ' (conditional)';
+            }
+            arrow.textContent = label;
+            container.appendChild(arrow);
+        });
+    }
+
+    /**
+     * Fetches the graph structure from the backend and renders it.
+     */
+    async function initializeGraph() {
+        try {
+            const response = await fetch('http://localhost:4000/graph-structure');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const graphData = await response.json();
+            renderDynamicGraph(graphData);
+        } catch (error) {
+            console.error("Failed to fetch graph structure:", error);
+            container.innerHTML = `<p class="status-indicator status-error">Could not load graph from server. Is it running?</p>`;
+        }
+    }
+
+
+    // Connect to SSE for node execution events
+    let evtSource;
+    function connectToSSE() {
+      evtSource = new EventSource('http://localhost:4000/events');
+
+      evtSource.onopen = () => {
+        console.log('SSE connection opened');
+        statusDiv.textContent = 'Connected to server ✓';
+        statusDiv.className = 'status-indicator status-connected';
+      };
+
+      evtSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log('Node execution event:', data);
+
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('highlighted'));
+
+        const cleanNodeId = data.node.replace('__', '');
+        const currentNodeEl = document.getElementById(`node-${cleanNodeId}`);
+        if (currentNodeEl) {
+          currentNodeEl.classList.add('highlighted');
+        }
+
+        if (data.status === 'executing') {
+          statusDiv.textContent = `Executing: ${data.node}`;
+        } else if (data.status === 'completed') {
+          statusDiv.textContent = `Completed: ${data.node}`;
+        } else if (data.status === 'error') {
+          statusDiv.textContent = `Error: ${data.message}`;
+          statusDiv.className = 'status-indicator status-error';
+        }
+      };
+
+      evtSource.onerror = () => {
+        console.error('SSE connection error.');
+        statusDiv.textContent = 'Connection lost. Retrying...';
+        statusDiv.className = 'status-indicator status-error';
+        evtSource.close();
+        setTimeout(connectToSSE, 3000);
+      };
+    }
+
+    // Test function to send queries
+    async function testGraph() {
+      const input = document.getElementById('testInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      document.querySelectorAll('.node').forEach(n => n.classList.remove('highlighted'));
+      statusDiv.textContent = 'Sending query...';
+      statusDiv.className = 'status-indicator status-connected';
+
+      try {
+        await fetch("http://localhost:4000/run", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: [{ type: "human", content: message }] }),
+        });
+        statusDiv.textContent = 'Query completed!';
+        statusDiv.className = 'status-indicator status-connected';
+        input.value = '';
+      } catch (err) {
+        console.error('Error testing graph:', err);
+        statusDiv.textContent = 'Error sending query. Is the server running?';
+        statusDiv.className = 'status-indicator status-error';
+      }
+    }
+    
+    document.getElementById('testInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        testGraph();
+      }
+    });
+
+    // --- INITIALIZE EVERYTHING ---
+    initializeGraph();
+    connectToSSE();
+  </script>
+</body>
+</html>
